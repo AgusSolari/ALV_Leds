@@ -8,8 +8,6 @@ Todos de un color
 #include <Arduino.h>
 #include <ALVLeds.h>
 
-
-
 // Adafruit_NeoPixel* pixels;
 ALVLeds *leds;
 
@@ -20,5 +18,14 @@ void setup()
 
 void loop()
 {
-	leds->startRace();
+
+	if(leds->startRace()) // Si la animacion termino devuelve 0
+	{
+
+	}
+	else
+	{
+		Serial.println("Finish");
+	}
+
 }

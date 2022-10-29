@@ -33,6 +33,7 @@ typedef struct
 
 
 
+
 class ALVLeds
 {
 private:
@@ -53,7 +54,7 @@ public:
     void ledToColor(int led, Color_t color);
 
     //Usefull Functions
-    void startRace();
+    bool startRace();
     void ledsBegin(Led_t* leds);
 
 };
