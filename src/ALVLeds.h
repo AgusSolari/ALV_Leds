@@ -10,7 +10,8 @@
 #include <TimedProcess.h>
 
 #define PIN 6               // Pin of the board
-#define TOTALNUMPIXEL 3 * 7 // Total numers of leds
+#define NUMLEDS 3
+#define TOTALNUMPIXEL NUMLEDS*7 // Total numers of leds
 
 #define COLOR(r , g , b) leds->pixels->Color(r,g,b)
 
@@ -43,7 +44,7 @@ public:
 
     Adafruit_NeoPixel *pixels;
 
-    Led_t leds[3];
+    Led_t leds[NUMLEDS];
 
     //Auxiliar Functions
     bool runSurround(int led, uint32_t color); // led go from 1 to 3 // led = 0 -> (all leds)
@@ -53,4 +54,6 @@ public:
 
     //Usefull Functions
     void startRace();
+    void ledsBegin(Led_t* leds);
+
 };

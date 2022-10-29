@@ -20,21 +20,7 @@ ALVLeds::ALVLeds(int numPixel, int pin)
     pixels->setBrightness(50);
     pixels->show(); // Initialize all pixels to 'off'
 
-    leds[0].iD = 1;
-    leds[0].previousMillis = 0;
-    leds[0].startCounter = 0;
-    leds[0].finishCounter = 7;
-
-    leds[1].iD = 2;
-    leds[1].startCounter = 7;
-    leds[1].previousMillis = 0;
-    leds[2].finishCounter = 14;
-
-
-    leds[2].iD = 3;
-    leds[2].startCounter = 14;
-    leds[2].previousMillis = 0;
-    leds[0].finishCounter = 21;
+    ledsBegin(leds);
 
 
     if(pixels != NULL)
@@ -142,3 +128,23 @@ void ALVLeds::startRace()
     runSurround(2, pixels->Color(0, 255, 40));
     runSurround(3, pixels->Color(0, 40, 255));
 }
+
+void ALVLeds::ledsBegin(Led_t* leds)
+{
+    leds[0].iD = 1;
+    leds[0].previousMillis = 0;
+    leds[0].startCounter = 0;
+    leds[0].finishCounter = 7;
+
+    leds[1].iD = 2;
+    leds[1].startCounter = 7;
+    leds[1].previousMillis = 0;
+    leds[2].finishCounter = 14;
+
+
+    leds[2].iD = 3;
+    leds[2].startCounter = 14;
+    leds[2].previousMillis = 0;
+    leds[0].finishCounter = 21;
+}
+
