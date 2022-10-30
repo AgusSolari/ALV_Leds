@@ -5,9 +5,6 @@ long intervalRed = 2000;          // interval at which to do something (millisec
 long intervalYellow = 4000;
 long intervalGreen = 6000;
 
-bool ready = 0;
-bool set = 0;
-bool go = 0;
 
 using namespace std;
 
@@ -101,61 +98,60 @@ void ALVLeds::setPixelColor(int pixel, uint32_t color)
     pixels->show();
 }
 
-bool ALVLeds::runSurround(int led, uint32_t color)
+int ALVLeds::runSurround(int led, uint32_t color, long interval)
 {
-    int previousMillis = leds[led - 1].previousMillis;
+    // int previousMillis = leds[led - 1].previousMillis;
 
     unsigned long currentMillis = millis();
 
-    if (currentMillis - previousMillis > 250 && leds[led - 1].startCounter < 7 * led)
+    if (currentMillis - leds[led - 1].previousMillis > interval && leds[led - 1].startCounter < 7 * led)
     {
-        Serial.println("Counter: ");
-        Serial.print(leds[led - 1].startCounter);
-        Serial.print("\n");
-
         pixels->setPixelColor(leds[led - 1].startCounter++, color);
         pixels->show();
 
         leds[led - 1].previousMillis = currentMillis;
 
-        if (leds[led - 1].startCounter == 7 * led)
-        {
-            return 1;
-        }
+        return (int)0;
+    }
+    if (leds[led - 1].startCounter == 7 * led)
+    {
+        return (int)1;
     }
 }
 
-bool ALVLeds::startRace()
+int ALVLeds::startRace()
 {
     unsigned long currentMillis = millis();
 
     if (currentMillis - previousMillisStartRace > intervalRed)
     {
-        runSurround(1, pixels->Color(255, 0, 0));
+        runSurround(1, pixels->Color(255, 0, 0), 250 );
 
         if (currentMillis - previousMillisStartRace > intervalYellow)
         {
 
-            runSurround(1, pixels->Color(255, 255, 0));
-            runSurround(2, pixels->Color(255, 255, 0));
+            runSurround(1, pixels->Color(255, 255, 0), 250);
+            runSurround(2, pixels->Color(255, 255, 0), 250);
 
             if (currentMillis - previousMillisStartRace > intervalGreen)
             {
 
-                runSurround(1, pixels->Color(0, 255, 0));
-                runSurround(2, pixels->Color(0, 255, 0));
-                runSurround(3, pixels->Color(0, 255, 0));
-
+                runSurround(1, pixels->Color(0, 255, 0), 250);
+                runSurround(2, pixels->Color(0, 255, 0), 250);
+                runSurround(3, pixels->Color(0, 255, 0), 250);
             }
         }
     }
     if (leds[2].startCounter != 21)
     {
-        return 1;
+        return (int)1;
     }
     else
     {
-        return 0;
+        ledOff(0);
+        previousMillisStartRace = 0;
+
+        return (int)0;
     }
 }
 
@@ -175,4 +171,20 @@ void ALVLeds::ledsBegin(Led_t *leds)
     leds[2].startCounter = 14;
     leds[2].previousMillis = 0;
     leds[0].finishCounter = 21;
+}
+
+int ALVLeds::waiting()
+{
+
+    int w1 = runSurround(1, pixels->Color(0, 0, 255), 750);
+    int w2 = runSurround(2, pixels->Color(0, 0, 255), 750);
+    int w3 = runSurround(3, pixels->Color(0, 0, 255), 750);
+
+    Serial.print(w1);
+
+    if(w2 == 1 || w3 == 1)
+    {
+        ledsBegin(leds);
+        ledOff(0);
+    }
 }

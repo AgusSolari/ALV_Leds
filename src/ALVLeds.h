@@ -48,13 +48,14 @@ public:
     Led_t leds[NUMLEDS];
 
     //Auxiliar Functions
-    bool runSurround(int led, uint32_t color); // led go from 1 to 3 // led = 0 -> (all leds)
+    int runSurround(int led, uint32_t color, long interval); // led go from 1 to 3 // led = 0 -> (all leds)
     void setPixelColor(int pixel, uint32_t color);
     void ledOff(int led);
     void ledToColor(int led, Color_t color);
+    void ledsBegin(Led_t* leds);
 
     //Usefull Functions
-    bool startRace();
-    void ledsBegin(Led_t* leds);
+    int startRace();
+    int waiting();
 
 };
