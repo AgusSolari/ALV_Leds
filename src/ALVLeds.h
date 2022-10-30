@@ -39,6 +39,7 @@ class ALVLeds
 private:
     // Vars
     bool ledState = false; // Initialize the status of the led with off
+    bool wait = false;
 public:
     ALVLeds(int numPixel, int pin);
     ~ALVLeds();
@@ -57,5 +58,6 @@ public:
     //Usefull Functions
     int startRace();
     int waiting();
+    int stopWaiting();
 
 };

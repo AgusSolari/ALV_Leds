@@ -175,16 +175,30 @@ void ALVLeds::ledsBegin(Led_t *leds)
 
 int ALVLeds::waiting()
 {
-
-    int w1 = runSurround(1, pixels->Color(0, 0, 255), 750);
-    int w2 = runSurround(2, pixels->Color(0, 0, 255), 750);
-    int w3 = runSurround(3, pixels->Color(0, 0, 255), 750);
-
-    Serial.print(w1);
-
-    if(w2 == 1 || w3 == 1)
+    if(wait == false)
     {
-        ledsBegin(leds);
-        ledOff(0);
+        wait = true;
+
+        int w1 = runSurround(1, pixels->Color(0, 0, 255), 750);
+        int w2 = runSurround(2, pixels->Color(0, 0, 255), 750);
+        int w3 = runSurround(3, pixels->Color(0, 0, 255), 750);
+
+        Serial.print(w1);
+
+        if(w2 == 1 || w3 == 1)
+        {
+            ledsBegin(leds);
+            ledOff(0);
+        }
     }
+    else
+    {
+        wait = false;
+    }
+
+}
+
+int ALVLeds::stopWaiting()
+{
+    wait = false;
 }
