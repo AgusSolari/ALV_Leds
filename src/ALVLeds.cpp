@@ -33,7 +33,7 @@ ALVLeds::ALVLeds(int numPixel, int pin)
     }
     else
     {
-        exit;
+        Serial.println("Initialice Fail\n");
     }
 }
 
@@ -92,16 +92,30 @@ void ALVLeds::ledToColor(int led, Color_t color)
     }
 }
 
+/**
+ * @brief Setea un pixel del led de un color en especifico
+ * 
+ * @param pixel: numero del led a cambiar de color
+ * @param color: Recibe el uint32_t del color (usar funcion Color dentro del objeto pixels)
+ *                  color = pixels->Color(r , g b);
+ */
 void ALVLeds::setPixelColor(int pixel, uint32_t color)
 {
     pixels->setPixelColor(pixel, color);
     pixels->show();
 }
 
+/**
+ * @brief Empieza a la animacion de rotacion de los leds
+ * 
+ * @param led: Numero del led a prender
+ * @param color: Color en formato uint32 (Mediante funcion Color(r, g, b) del objeto pixels)
+ * @param interval: Intervalo en ms de prendido y apagado de los led's
+ * 
+ * @return int: Si la animacion termino devuelve 0
+ */
 int ALVLeds::runSurround(int led, uint32_t color, long interval)
 {
-    // int previousMillis = leds[led - 1].previousMillis;
-
     unsigned long currentMillis = millis();
 
     if (currentMillis - leds[led - 1].previousMillis > interval && leds[led - 1].startCounter < 7 * led)
@@ -119,6 +133,11 @@ int ALVLeds::runSurround(int led, uint32_t color, long interval)
     }
 }
 
+/**
+ * @brief Comienza la animacion del semaforo
+ * 
+ * @return int: Devuelve 0 si la animacion termino
+ */
 int ALVLeds::startRace()
 {
     unsigned long currentMillis = millis();
@@ -155,6 +174,11 @@ int ALVLeds::startRace()
     }
 }
 
+/**
+ * @brief Inicializa los leds. Coloca los contadores en cero para cada led
+ * 
+ * @param leds 
+ */
 void ALVLeds::ledsBegin(Led_t *leds)
 {
     leds[0].iD = 1;
@@ -173,12 +197,18 @@ void ALVLeds::ledsBegin(Led_t *leds)
     leds[0].finishCounter = 21;
 }
 
-int ALVLeds::waiting()
-{
-    if(wait == false)
-    {
-        wait = true;
 
+/**
+ * @brief Animacion de loop de los leds
+ * Esta animacion se va a reproducir en forma de loop hasta que se llame a la 
+ * funcion stopWaiting() el cual desactiva la animacion 
+ * 
+ * @return int 
+ */
+void ALVLeds::waiting()
+{
+    if(wait == true)
+    {
         int w1 = runSurround(1, pixels->Color(0, 0, 255), 750);
         int w2 = runSurround(2, pixels->Color(0, 0, 255), 750);
         int w3 = runSurround(3, pixels->Color(0, 0, 255), 750);
@@ -193,12 +223,11 @@ int ALVLeds::waiting()
     }
     else
     {
-        wait = false;
+        ledOff(0);
     }
-
 }
 
-int ALVLeds::stopWaiting()
+void ALVLeds::stopWaiting()
 {
     wait = false;
 }

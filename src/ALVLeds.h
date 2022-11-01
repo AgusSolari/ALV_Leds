@@ -38,14 +38,15 @@ class ALVLeds
 {
 private:
     // Vars
-    bool ledState = false; // Initialize the status of the led with off
     bool wait = false;
+
 public:
     ALVLeds(int numPixel, int pin);
     ~ALVLeds();
 
     Adafruit_NeoPixel *pixels;
 
+    //Led's Data
     Led_t leds[NUMLEDS];
 
     //Auxiliar Functions
@@ -55,9 +56,9 @@ public:
     void ledToColor(int led, Color_t color);
     void ledsBegin(Led_t* leds);
 
-    //Usefull Functions
+    //ALV Functions
     int startRace();
-    int waiting();
-    int stopWaiting();
+    void waiting();
+    void stopWaiting();
 
 };

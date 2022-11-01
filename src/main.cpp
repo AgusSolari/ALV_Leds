@@ -9,13 +9,12 @@ Todos de un color
 #include <ALVLeds.h>
 
 // Adafruit_NeoPixel* pixels;
-ALVLeds *leds;
+ALVLeds leds(21, 6);
 
 int status = true;
 
 void setup()
 {
-	leds = &ALVLeds(21, 6);
 }
 
 void loop()
@@ -23,11 +22,11 @@ void loop()
 
 	if(status) // Si la animacion termino devuelve 0
 	{
-		status = leds->startRace();
+		status = leds.startRace();
 	}
 	else
 	{
-		leds->waiting();
+		leds.waiting();
 	}
 
 }
