@@ -28,7 +28,7 @@ typedef struct
     int iD;
     int startCounter;
     int finishCounter;
-    int previousMillis;
+    unsigned long previousMillis;
 }Led_t;
 
 
@@ -50,7 +50,7 @@ public:
     Led_t leds[NUMLEDS];
 
     //Auxiliar Functions
-    int runSurround(int led, uint32_t color, long interval); // led go from 1 to 3 // led = 0 -> (all leds)
+    int runSurround(int led, uint32_t color, unsigned long interval); // led go from 1 to 3 // led = 0 -> (all leds)
     void setPixelColor(int pixel, uint32_t color);
     void ledOff(int led);
     void ledToColor(int led, Color_t color);

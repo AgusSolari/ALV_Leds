@@ -1,9 +1,9 @@
 #include "ALVLeds.h"
 
-long previousMillisStartRace = 0; // last time update
-long intervalRed = 2000;          // interval at which to do something (milliseconds)
-long intervalYellow = 4000;
-long intervalGreen = 6000;
+unsigned long previousMillisStartRace = 0; // last time update
+unsigned long intervalRed = 2000;          // interval at which to do something (milliseconds)
+unsigned long intervalYellow = 4000;
+unsigned long intervalGreen = 6000;
 
 
 using namespace std;
@@ -22,7 +22,7 @@ ALVLeds::ALVLeds(int numPixel, int pin)
     pixels = &Adafruit_NeoPixel(numPixel, pin, NEO_GRB + NEO_KHZ800);
 
     pixels->begin(); // Initialize the objects
-    pixels->setBrightness(50);
+    pixels->setBrightness(200);
     pixels->show(); // Initialize all pixels to 'off'
 
     ledsBegin(leds);
@@ -114,7 +114,7 @@ void ALVLeds::setPixelColor(int pixel, uint32_t color)
  * 
  * @return int: Si la animacion termino devuelve 0
  */
-int ALVLeds::runSurround(int led, uint32_t color, long interval)
+int ALVLeds::runSurround(int led, uint32_t color, unsigned long interval)
 {
     unsigned long currentMillis = millis();
 
@@ -131,6 +131,7 @@ int ALVLeds::runSurround(int led, uint32_t color, long interval)
     {
         return (int)1;
     }
+
 }
 
 /**
